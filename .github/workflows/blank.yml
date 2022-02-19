@@ -37,7 +37,8 @@ jobs:
 
       - name: Clone Repositories
         run: | 
-            git clone https://github.com/KrutosVIP/halium_device_realme_RMX2001
+            git clone https://github.com/KrutosVIP/halium_device_realme_RMX2001 workflow
+            cd workflow
             
           
       - name: Start build
