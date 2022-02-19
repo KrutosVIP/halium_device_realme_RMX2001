@@ -1,6 +1,5 @@
 #!/bin/bash
 set -xe
-shopt -s extglob
 
 BUILD_DIR=
 OUT=

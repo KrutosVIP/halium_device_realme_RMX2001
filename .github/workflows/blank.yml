@@ -37,7 +37,7 @@ jobs:
  
       - name: Start build
         run: |
-            bash ./build/build.sh
+            bash ./build.sh
         
       - name: Pre-OTA
         run: |
