@@ -34,14 +34,9 @@ jobs:
         run: |
             sudo wget https://raw.githubusercontent.com/LineageOS/android_system_core/lineage-17.1/mkbootimg/mkbootimg.py -O /usr/bin/mkbootimg
             cd ~
-
-      - name: Clone Repositories
-        run: | 
-            git clone https://github.com/KrutosVIP/halium_device_realme_RMX2001 workflow
-          
+ 
       - name: Start build
         run: |
-            ls
             ./build/build.sh
         
       - name: Pre-OTA
