@@ -43,7 +43,7 @@ jobs:
       - name: Start build
         run: ./build/build.sh
         
-      - name: Pre-OTA:
+      - name: Pre-OTA
         run: |
             apt install -y git img2simg jq sudo wget xz-utils
             DEVICE="$(source deviceinfo && echo $deviceinfo_codename)"
