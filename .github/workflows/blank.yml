@@ -41,7 +41,7 @@ jobs:
         
       - name: Pre-OTA
         run: |
-            apt install -y git img2simg jq sudo wget xz-utils
+            sudo apt install -y git img2simg jq sudo wget xz-utils
             DEVICE="$(source deviceinfo && echo $deviceinfo_codename)"
             
       - name: Prepare OTA
