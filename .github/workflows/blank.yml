@@ -47,7 +47,9 @@ jobs:
       - name: Prepare OTA
         run: ./build/prepare-fake-ota.sh out/device_$DEVICE.tar.xz ota && mkdir -p out && ./build/system-image-from-ota.sh ota/ubuntu_command out
         
-      - run: echo Build Complete!
+      - run: |
+            echo Build Complete!
+            ls out/
       - uses: actions/upload-artifact@v2
         with:
            name: boot.img
