@@ -53,6 +53,7 @@ jobs:
         with:
            name: boot.img
            path: out/boot.img
+           
       - run: echo Upload device.tar.xz...
       - uses: actions/upload-artifact@v2
         with:
