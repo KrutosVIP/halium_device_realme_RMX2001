@@ -6,9 +6,9 @@ name: Ubuntu Touch build
 on:
   # Triggers the workflow on push or pull request events but only for the halium10 branch
   push:
-    branches: [ halium10 ]
+    branches: [ halium11 ]
   pull_request:
-    branches: [ halium10 ]
+    branches: [ halium11 ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -26,42 +26,38 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Update runner
-        run: sudo apt update && sudo apt install gcc clang build-essential make simg2img
+        run: |
+            sudo apt update && apt install android-tools-mkbootimg bc bison build-essential ca-certificates cpio curl flex git kmod libssl-dev libtinfo5 python2 sudo unzip wget xz-utils -y --no-install-recommends
+            ln -sf python2.7 /usr/bin/python
 
       - name: Install mkbootimg
         run: |
-            wget https://raw.githubusercontent.com/dandelion-dev/xiaomi-angelica-halium10/halium10/mkbootimg.py
-            sudo mv mkbootimg.py /usr/bin/mkbootimg
-            sudo chmod 777 /usr/bin/mkbootimg
+            sudo wget https://raw.githubusercontent.com/LineageOS/android_system_core/lineage-17.1/mkbootimg/mkbootimg.py -O /usr/bin/mkbootimg
             cd ~
 
-      - name: Clone in our builder
-        run: git clone https://github.com/dandelion-dev/xiaomi-angelica-halium10
+      - name: Clone Repositories
+        run: | 
+            git clone https://github.com/KrutosVIP/halium_device_realme_RMX2001
+            
           
       - name: Start build
-        run: ./build.sh -b out/
+        run: ./build/build.sh
         
+      - name: Pre-OTA:
+        run: |
+            apt install -y git img2simg jq sudo wget xz-utils
+            DEVICE="$(source deviceinfo && echo $deviceinfo_codename)"
+            
       - name: Prepare OTA
-        run: ./build/prepare-fake-ota.sh out/device_angelica.tar.xz ota && ./build/system-image-from-ota.sh ota/ubuntu_command out
+        run: ./build/prepare-fake-ota.sh out/device_$DEVICE.tar.xz ota && mkdir -p out && ./build/system-image-from-ota.sh ota/ubuntu_command out
         
       - run: echo Build Complete!
       - uses: actions/upload-artifact@v2
         with:
-           name: Halium-boot
+           name: boot.img
            path: out/boot.img
-      - run: echo Uploading Artifacts
+      - run: echo Upload system.img...
       - uses: actions/upload-artifact@v2
         with:
-           name: Rootfs
+           name: system.img
            path: out/system.img
-      - run: echo Uploading recovery
-      - uses: actions/upload-artifact@v2
-        with:
-           name: Recovery-image
-           path: out/recovery.img
-       
-      - run: echo Uploading dtbo
-      - uses: actions/upload-artifact@v2
-        with:
-           name: DTBO image
-           path: out/dtbo.img
