@@ -49,13 +49,19 @@ jobs:
         
       - run: |
             echo Build Complete!
-            ls out/
       - uses: actions/upload-artifact@v2
         with:
            name: boot.img
            path: out/boot.img
+      - run: echo Upload device.tar.xz...
+      - uses: actions/upload-artifact@v2
+        with:
+           name: device.tar.xz
+           path: out/device_RMX2001.tar.xz
+      
       - run: echo Upload system.img...
       - uses: actions/upload-artifact@v2
         with:
            name: system.img
            path: out/system.img
+
